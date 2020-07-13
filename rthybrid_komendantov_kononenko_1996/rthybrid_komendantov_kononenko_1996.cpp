@@ -520,6 +520,8 @@ RTHybridKomendantovKononenko1996::update(DefaultGUIModel::update_flags_t flag)
     case PERIOD:
       period = RT::System::getInstance()->getPeriod() * 1e-6; // ms
       freq = 1.0 / (period * 1e-3);
+      s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq)); 
+      if (s_points == 0) s_points = 1;
       break;
 
     default:
