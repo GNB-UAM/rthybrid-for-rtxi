@@ -85,6 +85,11 @@ RTHybridElectricalSynapse::execute(void)
     scale = input(2);
     offset = input(3) * 1000;
 
+    if (scale == 0) {
+        scale = 1;
+        offset = 0;
+    }
+
     sm_electrical(input(0) * 1000, input(1) * 1000, &i);
 
     output(0) = i;
@@ -95,7 +100,10 @@ RTHybridElectricalSynapse::execute(void)
 void
 RTHybridElectricalSynapse::initParameters(void)
 {
-  g[SM_ELECTRICAL_G] = 0;
+    g[SM_ELECTRICAL_G] = 0;
+
+    scale = 0;
+    offset = 0;
 }
 
 void
@@ -113,6 +121,9 @@ RTHybridElectricalSynapse::update(DefaultGUIModel::update_flags_t flag)
 
     case MODIFY:
       g[SM_ELECTRICAL_G] = getParameter("g (uS)").toDouble();
+
+      scale = 0;
+      offset = 0;
       break;
 
     case UNPAUSE:
