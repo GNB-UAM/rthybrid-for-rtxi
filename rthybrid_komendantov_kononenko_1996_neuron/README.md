@@ -3,7 +3,7 @@
 **Requirements:** None  
 **Limitations:** None  
 
-![RTHybrid Komendantov-Kononenko (1996) neuron model GUI](rthybrid_komendantov_kononenko_1996.png)
+![RTHybrid Komendantov-Kononenko (1996) neuron model GUI](rthybrid_komendantov_kononenko_1996_neuron.png)
 
 <!--start-->
 <p><b>RTHybrid Komendantov-Kononenko (1996) neuron model</b></p>

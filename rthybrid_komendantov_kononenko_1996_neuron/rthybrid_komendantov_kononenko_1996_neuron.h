@@ -23,14 +23,14 @@
 
 #include <default_gui_model.h>
 
-class RTHybridKomendantovKononenko1996 : public DefaultGUIModel
+class RTHybridKomendantovKononenko1996Neuron : public DefaultGUIModel
 {
 
   Q_OBJECT
 
 public:
-  RTHybridKomendantovKononenko1996(void);
-  virtual ~RTHybridKomendantovKononenko1996(void);
+  RTHybridKomendantovKononenko1996Neuron(void);
+  virtual ~RTHybridKomendantovKononenko1996Neuron(void);
 
   void execute(void);
   void createGUI(DefaultGUIModel::variable_t*, int);
@@ -43,7 +43,7 @@ private:
   double vars_model[8];
   double params_model[20];
   double period, freq;
-  double burst_duration;
+  double burst_duration, burst_duration_value;
   double s_points;
 
   void initParameters();

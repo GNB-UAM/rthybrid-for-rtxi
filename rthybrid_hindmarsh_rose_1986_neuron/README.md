@@ -3,7 +3,7 @@
 **Requirements:** None  
 **Limitations:** None  
 
-![RTHybrid Hindmarsh-Rose (1986) neuron model GUI](rthybrid_hindmarsh_rose_1986.png)
+![RTHybrid Hindmarsh-Rose (1986) neuron model GUI](rthybrid_hindmarsh_rose_1986_neuron.png)
 
 <!--start-->
 <p><b>RTHybrid Hindmarsh-Rose (1986) neuron model</b></p>

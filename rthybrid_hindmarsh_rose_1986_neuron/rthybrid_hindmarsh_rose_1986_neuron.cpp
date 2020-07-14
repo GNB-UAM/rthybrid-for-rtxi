@@ -21,7 +21,7 @@
  * DefaultGUIModel with a custom GUI.
  */
 
-#include "rthybrid_hindmarsh_rose_1986.h"
+#include "rthybrid_hindmarsh_rose_1986_neuron.h"
 #include <iostream>
 #include <main_window.h>
 
@@ -45,7 +45,7 @@
 extern "C" Plugin::Object*
 createRTXIPlugin(void)
 {
-  return new RTHybridHindmarshRose1986();
+  return new RTHybridHindmarshRose1986Neuron();
 }
 
 static DefaultGUIModel::variable_t vars[] = {
@@ -78,7 +78,7 @@ static DefaultGUIModel::variable_t vars[] = {
 
 static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
 
-RTHybridHindmarshRose1986::RTHybridHindmarshRose1986(void)
+RTHybridHindmarshRose1986Neuron::RTHybridHindmarshRose1986Neuron(void)
   : DefaultGUIModel("RTHybrid Hindmarsh-Rose (1986) neuron model", ::vars, ::num_vars)
 {
   setWhatsThis("<p><b>RTHybrid Hindmarsh-Rose (1986) neuron model</b></p>");
@@ -93,11 +93,11 @@ RTHybridHindmarshRose1986::RTHybridHindmarshRose1986(void)
   QTimer::singleShot(0, this, SLOT(resizeMe()));
 }
 
-RTHybridHindmarshRose1986::~RTHybridHindmarshRose1986(void)
+RTHybridHindmarshRose1986Neuron::~RTHybridHindmarshRose1986Neuron(void)
 {
 }
 
-void RTHybridHindmarshRose1986::runge_kutta_65 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
+void RTHybridHindmarshRose1986Neuron::runge_kutta_65 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
     double apoyo[dim], retorno[dim];
     double k[6][dim];
     int j;
@@ -160,7 +160,7 @@ void RTHybridHindmarshRose1986::runge_kutta_65 (void (*f) (double *, double *, d
 }
 
 
-void RTHybridHindmarshRose1986::select_dt_neuron_model (double * dts, double * pts, unsigned int length, double pts_live, double * dt, double * pts_burst) {
+void RTHybridHindmarshRose1986Neuron::select_dt_neuron_model (double * dts, double * pts, unsigned int length, double pts_live, double * dt, double * pts_burst) {
     double aux = pts_live;
     double factor = 1;
     double intpart, fractpart;
@@ -206,7 +206,7 @@ void RTHybridHindmarshRose1986::select_dt_neuron_model (double * dts, double * p
 }
 
 
-double RTHybridHindmarshRose1986::set_pts_burst (double sec_per_burst) {
+double RTHybridHindmarshRose1986Neuron::set_pts_burst (double sec_per_burst) {
 	int length = 0;
 	int method = 3;
 	double pts_match = sec_per_burst * freq;
@@ -221,15 +221,15 @@ double RTHybridHindmarshRose1986::set_pts_burst (double sec_per_burst) {
 }
 
 
-double RTHybridHindmarshRose1986::nm_hindmarsh_rose_1986_v (double * vars, double * params) {
+double RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_v (double * vars, double * params) {
 	return vars[NM_HINDMARSH_ROSE_1986_Y] + params[NM_HINDMARSH_ROSE_1986_B] * (vars[NM_HINDMARSH_ROSE_1986_V]*vars[NM_HINDMARSH_ROSE_1986_V]) - params[NM_HINDMARSH_ROSE_1986_A] * (vars[NM_HINDMARSH_ROSE_1986_V]*vars[NM_HINDMARSH_ROSE_1986_V]*vars[NM_HINDMARSH_ROSE_1986_V]) - vars[NM_HINDMARSH_ROSE_1986_Z] + params[NM_HINDMARSH_ROSE_1986_I] - params[NM_HINDMARSH_ROSE_1986_SYN];
 }
 
-double RTHybridHindmarshRose1986::nm_hindmarsh_rose_1986_y (double * vars, double * params) {
+double RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_y (double * vars, double * params) {
 	return params[NM_HINDMARSH_ROSE_1986_C] - params[NM_HINDMARSH_ROSE_1986_D] * vars[NM_HINDMARSH_ROSE_1986_V]*vars[NM_HINDMARSH_ROSE_1986_V] - vars[NM_HINDMARSH_ROSE_1986_Y];
 }
 
-double RTHybridHindmarshRose1986::nm_hindmarsh_rose_1986_z (double * vars, double * params) {
+double RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_z (double * vars, double * params) {
 	return params[NM_HINDMARSH_ROSE_1986_R] * (params[NM_HINDMARSH_ROSE_1986_S] * (vars[NM_HINDMARSH_ROSE_1986_V] - params[NM_HINDMARSH_ROSE_1986_XR]) - vars[NM_HINDMARSH_ROSE_1986_Z]);
 }
 
@@ -241,7 +241,7 @@ double RTHybridHindmarshRose1986::nm_hindmarsh_rose_1986_z (double * vars, doubl
  * @param[in] syn Synapse input current value
  */
 
-void RTHybridHindmarshRose1986::nm_hindmarsh_rose_1986_f (double * vars, double * ret, double * params, double syn) {
+void RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_f (double * vars, double * ret, double * params, double syn) {
 	params[NM_HINDMARSH_ROSE_1986_SYN] = syn;
 
 	ret[NM_HINDMARSH_ROSE_1986_V] = nm_hindmarsh_rose_1986_v(vars, params);
@@ -250,9 +250,17 @@ void RTHybridHindmarshRose1986::nm_hindmarsh_rose_1986_f (double * vars, double 
 }
 
 void
-RTHybridHindmarshRose1986::execute(void)
+RTHybridHindmarshRose1986Neuron::execute(void)
 {
 	int i;
+
+    if (burst_duration_value <= -1) {
+        burst_duration = input(1);
+        s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq));
+        if (s_points < 1) s_points = 1;
+    }
+    
+
 	for (i = 0; i < s_points; i++) {
 	  runge_kutta_65(nm_hindmarsh_rose_1986_f, 3, params_model[NM_HINDMARSH_ROSE_1986_DT], vars_model, params_model, input(0));
 	}
@@ -264,9 +272,10 @@ RTHybridHindmarshRose1986::execute(void)
 }
 
 void
-RTHybridHindmarshRose1986::initParameters(void)
+RTHybridHindmarshRose1986Neuron::initParameters(void)
 {
-	burst_duration = 1.0;
+	burst_duration_value = 1.0;
+    burst_duration = burst_duration_value;
     freq = 1.0 / (period * 1e-3);
     s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq)); 
     if (s_points == 0) s_points = 1;
@@ -288,63 +297,69 @@ RTHybridHindmarshRose1986::initParameters(void)
 }
 
 void
-RTHybridHindmarshRose1986::update(DefaultGUIModel::update_flags_t flag)
+RTHybridHindmarshRose1986Neuron::update(DefaultGUIModel::update_flags_t flag)
 {
   switch (flag) {
     case INIT:
-		period = RT::System::getInstance()->getPeriod() * 1e-6; // ms
-		freq = 1.0 / (period * 1e-3);
+  		period = RT::System::getInstance()->getPeriod() * 1e-6; // ms
+  		freq = 1.0 / (period * 1e-3);
 
-		setParameter("Burst duration (s)", burst_duration);
-		setParameter("I", params_model[NM_HINDMARSH_ROSE_1986_I]);
+  		setParameter("Burst duration (s)", burst_duration_value);
+  		setParameter("I", params_model[NM_HINDMARSH_ROSE_1986_I]);
 
-		setParameter("a", params_model[NM_HINDMARSH_ROSE_1986_A]);
-		setParameter("b", params_model[NM_HINDMARSH_ROSE_1986_B]);
-		setParameter("c", params_model[NM_HINDMARSH_ROSE_1986_C]);
-		setParameter("d", params_model[NM_HINDMARSH_ROSE_1986_D]);
+  		setParameter("a", params_model[NM_HINDMARSH_ROSE_1986_A]);
+  		setParameter("b", params_model[NM_HINDMARSH_ROSE_1986_B]);
+  		setParameter("c", params_model[NM_HINDMARSH_ROSE_1986_C]);
+  		setParameter("d", params_model[NM_HINDMARSH_ROSE_1986_D]);
 
-		setParameter("r", params_model[NM_HINDMARSH_ROSE_1986_R]);
-		setParameter("s", params_model[NM_HINDMARSH_ROSE_1986_S]);
-		setParameter("xr", params_model[NM_HINDMARSH_ROSE_1986_XR]);
+  		setParameter("r", params_model[NM_HINDMARSH_ROSE_1986_R]);
+  		setParameter("s", params_model[NM_HINDMARSH_ROSE_1986_S]);
+  		setParameter("xr", params_model[NM_HINDMARSH_ROSE_1986_XR]);
 
-		setParameter("x0", vars_model[NM_HINDMARSH_ROSE_1986_V]);
-		setParameter("y0", vars_model[NM_HINDMARSH_ROSE_1986_Y]);
-		setParameter("z0", vars_model[NM_HINDMARSH_ROSE_1986_Z]);
+  		setParameter("x0", vars_model[NM_HINDMARSH_ROSE_1986_V]);
+  		setParameter("y0", vars_model[NM_HINDMARSH_ROSE_1986_Y]);
+  		setParameter("z0", vars_model[NM_HINDMARSH_ROSE_1986_Z]);
 
-		setState("v", vars_model[NM_HINDMARSH_ROSE_1986_V]);
-		setState("s_points", s_points);
-		setState("dt", params_model[NM_HINDMARSH_ROSE_1986_DT]);
-		setState("syn", params_model[NM_HINDMARSH_ROSE_1986_SYN]);
+  		setState("v", vars_model[NM_HINDMARSH_ROSE_1986_V]);
+  		setState("s_points", s_points);
+  		setState("dt", params_model[NM_HINDMARSH_ROSE_1986_DT]);
+  		setState("syn", params_model[NM_HINDMARSH_ROSE_1986_SYN]);
 
       break;
 
     case MODIFY:
-    	burst_duration = getParameter("Burst duration (s)").toDouble();
-		freq = 1.0 / (period * 1e-3);
-		if (burst_duration <= -1) burst_duration = input(1);
-		s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq));
-		if (s_points < 1) s_points = 1;
+        burst_duration_value = getParameter("Burst duration (s)").toDouble();
+        freq = 1.0 / (period * 1e-3);
 
-		params_model[NM_HINDMARSH_ROSE_1986_A] = getParameter("a").toDouble();
-		params_model[NM_HINDMARSH_ROSE_1986_B] = getParameter("b").toDouble();
-		params_model[NM_HINDMARSH_ROSE_1986_C] = getParameter("c").toDouble();
-		params_model[NM_HINDMARSH_ROSE_1986_D] = getParameter("d").toDouble();
+        if (burst_duration_value <= -1) {
+            burst_duration = input(1);
+        } else {
+            burst_duration = burst_duration_value;
+        }
 
-		params_model[NM_HINDMARSH_ROSE_1986_R] = getParameter("r").toDouble();
-		params_model[NM_HINDMARSH_ROSE_1986_S] = getParameter("s").toDouble();
-		params_model[NM_HINDMARSH_ROSE_1986_XR] = getParameter("xr").toDouble();
+        s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq));
+        if (s_points < 1) s_points = 1;
 
-		params_model[NM_HINDMARSH_ROSE_1986_I] = getParameter("I").toDouble();
+  		params_model[NM_HINDMARSH_ROSE_1986_A] = getParameter("a").toDouble();
+  		params_model[NM_HINDMARSH_ROSE_1986_B] = getParameter("b").toDouble();
+  		params_model[NM_HINDMARSH_ROSE_1986_C] = getParameter("c").toDouble();
+  		params_model[NM_HINDMARSH_ROSE_1986_D] = getParameter("d").toDouble();
 
-		vars_model[NM_HINDMARSH_ROSE_1986_V] = getParameter("x0").toDouble();
-		vars_model[NM_HINDMARSH_ROSE_1986_Y] = getParameter("y0").toDouble();
-		vars_model[NM_HINDMARSH_ROSE_1986_Z] = getParameter("z0").toDouble();
+  		params_model[NM_HINDMARSH_ROSE_1986_R] = getParameter("r").toDouble();
+  		params_model[NM_HINDMARSH_ROSE_1986_S] = getParameter("s").toDouble();
+  		params_model[NM_HINDMARSH_ROSE_1986_XR] = getParameter("xr").toDouble();
+
+  		params_model[NM_HINDMARSH_ROSE_1986_I] = getParameter("I").toDouble();
+
+  		vars_model[NM_HINDMARSH_ROSE_1986_V] = getParameter("x0").toDouble();
+  		vars_model[NM_HINDMARSH_ROSE_1986_Y] = getParameter("y0").toDouble();
+  		vars_model[NM_HINDMARSH_ROSE_1986_Z] = getParameter("z0").toDouble();
       break;
 
     case UNPAUSE:
-		freq = 1.0 / (period * 1e-3);
-		s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq)); 
-		if (s_points == 0) s_points = 1;
+  		freq = 1.0 / (period * 1e-3);
+  		s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq)); 
+  		if (s_points == 0) s_points = 1;
 
       break;
 
@@ -365,7 +380,7 @@ RTHybridHindmarshRose1986::update(DefaultGUIModel::update_flags_t flag)
 }
 
 void
-RTHybridHindmarshRose1986::customizeGUI(void)
+RTHybridHindmarshRose1986Neuron::customizeGUI(void)
 {
   QGridLayout* customlayout = DefaultGUIModel::getLayout();
 
@@ -386,11 +401,11 @@ RTHybridHindmarshRose1986::customizeGUI(void)
 
 // functions designated as Qt slots are implemented as regular C++ functions
 void
-RTHybridHindmarshRose1986::aBttn_event(void)
+RTHybridHindmarshRose1986Neuron::aBttn_event(void)
 {
 }
 
 void
-RTHybridHindmarshRose1986::bBttn_event(void)
+RTHybridHindmarshRose1986Neuron::bBttn_event(void)
 {
 }

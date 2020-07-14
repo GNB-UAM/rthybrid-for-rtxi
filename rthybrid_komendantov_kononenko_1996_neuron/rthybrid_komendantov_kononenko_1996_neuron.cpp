@@ -21,7 +21,7 @@
  * DefaultGUIModel with a custom GUI.
  */
 
-#include "rthybrid_komendantov_kononenko_1996.h"
+#include "rthybrid_komendantov_kononenko_1996_neuron.h"
 #include <iostream>
 #include <main_window.h>
 
@@ -63,7 +63,7 @@
 extern "C" Plugin::Object*
 createRTXIPlugin(void)
 {
-  return new RTHybridKomendantovKononenko1996();
+  return new RTHybridKomendantovKononenko1996Neuron();
 }
 
 static DefaultGUIModel::variable_t vars[] = {
@@ -107,7 +107,7 @@ static DefaultGUIModel::variable_t vars[] = {
 
 static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
 
-RTHybridKomendantovKononenko1996::RTHybridKomendantovKononenko1996(void)
+RTHybridKomendantovKononenko1996Neuron::RTHybridKomendantovKononenko1996Neuron(void)
   : DefaultGUIModel("RTHybrid Komendantov-Kononenko (1996) neuron model", ::vars, ::num_vars)
 {
   setWhatsThis("<p><b>RTHybrid Komendantov-Kononenko (1996) neuron model</b></p>");
@@ -122,11 +122,11 @@ RTHybridKomendantovKononenko1996::RTHybridKomendantovKononenko1996(void)
   QTimer::singleShot(0, this, SLOT(resizeMe()));
 }
 
-RTHybridKomendantovKononenko1996::~RTHybridKomendantovKononenko1996(void)
+RTHybridKomendantovKononenko1996Neuron::~RTHybridKomendantovKononenko1996Neuron(void)
 {
 }
 
-void RTHybridKomendantovKononenko1996::runge_kutta_65 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
+void RTHybridKomendantovKononenko1996Neuron::runge_kutta_65 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
     double apoyo[dim], retorno[dim];
     double k[6][dim];
     int j;
@@ -188,7 +188,7 @@ void RTHybridKomendantovKononenko1996::runge_kutta_65 (void (*f) (double *, doub
     return;
 }
 
-void RTHybridKomendantovKononenko1996::euler (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
+void RTHybridKomendantovKononenko1996Neuron::euler (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
     double apoyo[dim], retorno[dim];
     double k[4][dim];
     int j;
@@ -213,7 +213,7 @@ void RTHybridKomendantovKononenko1996::euler (void (*f) (double *, double *, dou
  * @param[out] dt Pointer to store the number of points per burst from the neuron model with selected integration step. If no integration step is found the value will be -1
  */
 
-void RTHybridKomendantovKononenko1996::select_dt_neuron_model (double * dts, double * pts, unsigned int length, double pts_live, double * dt, double * pts_burst) {
+void RTHybridKomendantovKononenko1996Neuron::select_dt_neuron_model (double * dts, double * pts, unsigned int length, double pts_live, double * dt, double * pts_burst) {
     double aux = pts_live;
     double factor = 1;
     double intpart, fractpart;
@@ -268,7 +268,7 @@ void RTHybridKomendantovKononenko1996::select_dt_neuron_model (double * dts, dou
  * @return Integration step, default -1
  */
 
-double RTHybridKomendantovKononenko1996::set_pts_burst (double sec_per_burst) {
+double RTHybridKomendantovKononenko1996Neuron::set_pts_burst (double sec_per_burst) {
 	int length = 0;
 	int method = 3;
 	double pts_match = sec_per_burst * freq;
@@ -285,7 +285,7 @@ double RTHybridKomendantovKononenko1996::set_pts_burst (double sec_per_burst) {
 }
 
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_V (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_V (double * vars, double * params) {
   double i_na_ttx = nm_komendantov_kononenko_1996_i_na_ttx(vars, params);
   double i_k_tea = nm_komendantov_kononenko_1996_i_k_tea(vars, params);
   double i_k = nm_komendantov_kononenko_1996_i_k(vars, params);
@@ -298,70 +298,70 @@ double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_V (double
   return (-(i_na_ttx + i_k_tea + i_k + i_na + i_na_v + i_b + i_ca + i_ca_ca) + params[NM_KOMENDANTOV_KONONENKO_1996_I] - params[NM_KOMENDANTOV_KONONENKO_1996_SYN]) / params[NM_KOMENDANTOV_KONONENKO_1996_CM];
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_i_na_v (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_i_na_v (double * vars, double * params) {
   return params[NM_KOMENDANTOV_KONONENKO_1996_G_NA_V] * (1.000000 / (1.000000 + exp(-0.200000 * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] + 45.000000)))) * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] - params[NM_KOMENDANTOV_KONONENKO_1996_V_NA]);
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_i_k (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_i_k (double * vars, double * params) {
   return params[NM_KOMENDANTOV_KONONENKO_1996_G_K] * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] - params[NM_KOMENDANTOV_KONONENKO_1996_V_K]);
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_i_na (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_i_na (double * vars, double * params) {
   return params[NM_KOMENDANTOV_KONONENKO_1996_G_NA] * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] - params[NM_KOMENDANTOV_KONONENKO_1996_V_NA]);
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_i_b (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_i_b (double * vars, double * params) {
   return params[NM_KOMENDANTOV_KONONENKO_1996_G_B] * vars[NM_KOMENDANTOV_KONONENKO_1996_M_B] * vars[NM_KOMENDANTOV_KONONENKO_1996_H_B] * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] - params[NM_KOMENDANTOV_KONONENKO_1996_V_B]);
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_m_b (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_m_b (double * vars, double * params) {
   return (1.000000 / (1.000000 + exp(0.400000 * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] + 34.000000))) - vars[NM_KOMENDANTOV_KONONENKO_1996_M_B]) / 0.050000;
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_h_b (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_h_b (double * vars, double * params) {
   return (1.000000 / (1.000000 + exp(-0.550000 * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] + 43.000000))) - vars[NM_KOMENDANTOV_KONONENKO_1996_H_B]) / 1.500000;
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_i_na_ttx (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_i_na_ttx (double * vars, double * params) {
   return params[NM_KOMENDANTOV_KONONENKO_1996_G_NA_TTX] * vars[NM_KOMENDANTOV_KONONENKO_1996_M]*vars[NM_KOMENDANTOV_KONONENKO_1996_M]*vars[NM_KOMENDANTOV_KONONENKO_1996_M] * vars[NM_KOMENDANTOV_KONONENKO_1996_H] * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] - params[NM_KOMENDANTOV_KONONENKO_1996_V_NA]);
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_i_k_tea (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_i_k_tea (double * vars, double * params) {
   return params[NM_KOMENDANTOV_KONONENKO_1996_G_K_TEA] * vars[NM_KOMENDANTOV_KONONENKO_1996_N]*vars[NM_KOMENDANTOV_KONONENKO_1996_N]*vars[NM_KOMENDANTOV_KONONENKO_1996_N]*vars[NM_KOMENDANTOV_KONONENKO_1996_N] * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] - params[NM_KOMENDANTOV_KONONENKO_1996_V_K]);
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_m (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_m (double * vars, double * params) {
   //printf("(1 / 1 + exp(-0.4 * (V[%f] + 31))) - m[%f]) / 0.0005\n", vars[NM_KOMENDANTOV_KONONENKO_1996_V], vars[NM_KOMENDANTOV_KONONENKO_1996_M]);
   return (1.0 / (1.0 + exp(-0.4 * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] + 31.0))) - vars[NM_KOMENDANTOV_KONONENKO_1996_M]) / 0.0005;
   //return (1.000000 / (1.000000 + exp(-0.400000 * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] + 31.000000))) - vars[NM_KOMENDANTOV_KONONENKO_1996_M]) / 0.000500;
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_h (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_h (double * vars, double * params) {
   return (1.000000 / (1.000000 + exp(0.250000 * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] + 45.000000))) - vars[NM_KOMENDANTOV_KONONENKO_1996_H]) / 0.010000;
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_n (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_n (double * vars, double * params) {
   return (1.000000 / (1.000000 + exp(-0.180000 * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] + 25.000000))) - vars[NM_KOMENDANTOV_KONONENKO_1996_N]) / 0.015000;
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_i_ca (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_i_ca (double * vars, double * params) {
   return params[NM_KOMENDANTOV_KONONENKO_1996_G_CA] * vars[NM_KOMENDANTOV_KONONENKO_1996_M_CA]*vars[NM_KOMENDANTOV_KONONENKO_1996_M_CA] * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] - params[NM_KOMENDANTOV_KONONENKO_1996_V_CA]);
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_m_ca (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_m_ca (double * vars, double * params) {
   return (1.000000 / (1.000000 + exp(-0.200000 * vars[NM_KOMENDANTOV_KONONENKO_1996_V])) - vars[NM_KOMENDANTOV_KONONENKO_1996_M_CA]) / 0.010000;
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_i_ca_ca (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_i_ca_ca (double * vars, double * params) {
   return params[NM_KOMENDANTOV_KONONENKO_1996_G_CA_CA] * (1.000000 / (1.000000 + exp(-0.060000 * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] + 45.000000)))) * (1.000000 / (1.000000 + exp(params[NM_KOMENDANTOV_KONONENKO_1996_K_BETA] * (vars[NM_KOMENDANTOV_KONONENKO_1996_CA] - params[NM_KOMENDANTOV_KONONENKO_1996_BETA])))) * (vars[NM_KOMENDANTOV_KONONENKO_1996_V] - params[NM_KOMENDANTOV_KONONENKO_1996_V_CA]);
 }
 
-double RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_Ca (double * vars, double * params) {
+double RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_Ca (double * vars, double * params) {
   double i_ca = nm_komendantov_kononenko_1996_i_ca(vars, params);
   return params[NM_KOMENDANTOV_KONONENKO_1996_RHO] * ((-i_ca / 808.310846) - (params[NM_KOMENDANTOV_KONONENKO_1996_K_S] * vars[NM_KOMENDANTOV_KONONENKO_1996_CA]));
 }
 
-void RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_f (double * vars, double * ret, double * params, double syn) {
+void RTHybridKomendantovKononenko1996Neuron::nm_komendantov_kononenko_1996_f (double * vars, double * ret, double * params, double syn) {
   params[NM_KOMENDANTOV_KONONENKO_1996_SYN] = syn;
 
   ret[NM_KOMENDANTOV_KONONENKO_1996_V] = nm_komendantov_kononenko_1996_V(vars, params);
@@ -376,9 +376,16 @@ void RTHybridKomendantovKononenko1996::nm_komendantov_kononenko_1996_f (double *
 
 
 void
-RTHybridKomendantovKononenko1996::execute(void)
+RTHybridKomendantovKononenko1996Neuron::execute(void)
 {
   int i;
+
+  if (burst_duration_value <= -1) {
+      burst_duration = input(1);
+      s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq));
+      if (s_points < 1) s_points = 1;
+  }
+  
   for (i = 0; i < s_points; i++) {
   	runge_kutta_65(nm_komendantov_kononenko_1996_f, NM_KOMENDANTOV_KONONENKO_1996_N_VARS, params_model[NM_KOMENDANTOV_KONONENKO_1996_DT], vars_model, params_model, input(0));	
   }
@@ -390,9 +397,10 @@ RTHybridKomendantovKononenko1996::execute(void)
 }
 
 void
-RTHybridKomendantovKononenko1996::initParameters(void)
+RTHybridKomendantovKononenko1996Neuron::initParameters(void)
 {
-  burst_duration = 1.0;
+  burst_duration_value = 1.0;
+  burst_duration = burst_duration_value;
   freq = 1.0 / (period * 1e-3);
   s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq)); 
   if (s_points == 0) s_points = 1;
@@ -434,14 +442,14 @@ RTHybridKomendantovKononenko1996::initParameters(void)
 }
 
 void
-RTHybridKomendantovKononenko1996::update(DefaultGUIModel::update_flags_t flag)
+RTHybridKomendantovKononenko1996Neuron::update(DefaultGUIModel::update_flags_t flag)
 {
   switch (flag) {
     case INIT:
       period = RT::System::getInstance()->getPeriod() * 1e-6; // ms
       freq = 1.0 / (period * 1e-3);
 
-      setParameter("Burst duration (s)", burst_duration);
+      setParameter("Burst duration (s)", burst_duration_value);
       setParameter("i", params_model[NM_KOMENDANTOV_KONONENKO_1996_I]);
       setParameter("cm", params_model[NM_KOMENDANTOV_KONONENKO_1996_CM]);
 
@@ -475,9 +483,15 @@ RTHybridKomendantovKononenko1996::update(DefaultGUIModel::update_flags_t flag)
       break;
 
     case MODIFY:
-      burst_duration = getParameter("Burst duration (s)").toDouble();
+      burst_duration_value = getParameter("Burst duration (s)").toDouble();
       freq = 1.0 / (period * 1e-3);
-      if (burst_duration <= -1) burst_duration = input(1);
+
+      if (burst_duration_value <= -1) {
+          burst_duration = input(1);
+      } else {
+          burst_duration = burst_duration_value;
+      }
+      
       s_points = (int)(set_pts_burst(burst_duration) / (burst_duration * freq));
       if (s_points < 1) s_points = 1;
 
@@ -530,7 +544,7 @@ RTHybridKomendantovKononenko1996::update(DefaultGUIModel::update_flags_t flag)
 }
 
 void
-RTHybridKomendantovKononenko1996::customizeGUI(void)
+RTHybridKomendantovKononenko1996Neuron::customizeGUI(void)
 {
   QGridLayout* customlayout = DefaultGUIModel::getLayout();
 
@@ -551,11 +565,11 @@ RTHybridKomendantovKononenko1996::customizeGUI(void)
 
 // functions designated as Qt slots are implemented as regular C++ functions
 void
-RTHybridKomendantovKononenko1996::aBttn_event(void)
+RTHybridKomendantovKononenko1996Neuron::aBttn_event(void)
 {
 }
 
 void
-RTHybridKomendantovKononenko1996::bBttn_event(void)
+RTHybridKomendantovKononenko1996Neuron::bBttn_event(void)
 {
 }
