@@ -9,7 +9,7 @@ For the standalone version of RTHybrid check https://github.com/GNB-UAM/RTHybrid
 
 
 ## Installation
-Executing `sh install.sh` will compile and install all the modules at once (requires sudo permission).
+Executing `sudo sh install.sh` will compile and install all the modules at once (requires sudo permission).
 
 
 ## Currently included models
