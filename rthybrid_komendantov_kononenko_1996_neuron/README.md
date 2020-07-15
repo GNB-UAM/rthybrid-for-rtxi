@@ -5,9 +5,9 @@
 
 ![RTHybrid Komendantov-Kononenko (1996) neuron model GUI](rthybrid_komendantov_kononenko_1996_neuron.png)
 
-<!--start-->
-<p><b>RTHybrid Komendantov-Kononenko (1996) neuron model</b><br>RTHybrid module for RTXI that implements the [Komendantov-Kononenko neuron model](https://doi.org/10.1006/jtbi.1996.0215).</p>
-<!--end-->
+#### RTHybrid Komendantov-Kononenko (1996) neuron model
+RTHybrid module for RTXI that implements the [Komendantov-Kononenko (1996) neuron model](https://doi.org/10.1006/jtbi.1996.0215).
+
 
 #### Input
 1. input(0) - Isyn (nA) : Synaptic input current (in nA)

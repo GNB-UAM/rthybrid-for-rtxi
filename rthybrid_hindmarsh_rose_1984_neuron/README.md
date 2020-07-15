@@ -5,9 +5,9 @@
 
 ![RTHybrid Hindmarsh-Rose (1984) neuron model GUI](rthybrid_hindmarsh_rose_1984_neuron.png)
 
-<!--start-->
-<p><b>RTHybrid Hindmarsh-Rose (1984) neuron model</b><br>RTHybrid module for RTXI that implements the [Hindmarsh-Rose neuron model](https://doi.org/10.1098%2Frspb.1984.0024).</p>
-<!--end-->
+
+#### RTHybrid Hindmarsh-Rose (1984) neuron model
+RTHybrid module for RTXI that implements the [Hindmarsh-Rose (1984) neuron model](https://doi.org/10.1098%2Frspb.1984.0024).
 
 #### Input
 1. input(0) - Isyn (nA) : Synaptic input current (in nA)
