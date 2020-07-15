@@ -1,9 +1,9 @@
-PLUGIN_NAME = rthybrid_hindmarsh_rose_1986_neuron
+PLUGIN_NAME = rthybrid_hindmarsh_rose_1984_neuron
 
-HEADERS = rthybrid_hindmarsh_rose_1986_neuron.h
+HEADERS = rthybrid_hindmarsh_rose_1984_neuron.h
 
-SOURCES = rthybrid_hindmarsh_rose_1986_neuron.cpp\
-          moc_rthybrid_hindmarsh_rose_1986_neuron.cpp\
+SOURCES = rthybrid_hindmarsh_rose_1984_neuron.cpp\
+          moc_rthybrid_hindmarsh_rose_1984_neuron.cpp\
 
 LIBS = 
 
