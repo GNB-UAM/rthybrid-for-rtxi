@@ -20,7 +20,7 @@ Executing `sh install.sh` will compile and install all the modules at once (requ
 	- Electrical
   
   
- ## Please, if you use RTHybrid cite the following papers:
+ ## Please, if you use RTHybrid or RTHybrid modules for RTXI, cite the following papers:
 
 Amaducci, R., Reyes-Sanchez, M., Elices, I., Rodriguez, F.B., & Varona, P. (2019). RTHybrid: a standardized and open-source real-time software model library for experimental neuroscience. Frontiers in Neuroinformatics, 13, 11. https://doi.org/10.3389/fninf.2019.00011
 
