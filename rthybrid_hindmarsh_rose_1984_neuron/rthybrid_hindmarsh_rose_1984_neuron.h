@@ -23,14 +23,14 @@
 
 #include <default_gui_model.h>
 
-class RTHybridHindmarshRose1986Neuron : public DefaultGUIModel
+class RTHybridHindmarshRose1984Neuron : public DefaultGUIModel
 {
 
   Q_OBJECT
 
 public:
-  RTHybridHindmarshRose1986Neuron(void);
-  virtual ~RTHybridHindmarshRose1986Neuron(void);
+  RTHybridHindmarshRose1984Neuron(void);
+  virtual ~RTHybridHindmarshRose1984Neuron(void);
 
   void execute(void);
   void createGUI(DefaultGUIModel::variable_t*, int);

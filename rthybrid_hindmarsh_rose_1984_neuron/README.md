@@ -1,12 +1,12 @@
-### RTHybrid Komendantov-Kononenko (1996) neuron model
+### RTHybrid Hindmarsh-Rose (1984) neuron model
 
 **Requirements:** None  
 **Limitations:** None  
 
-![RTHybrid Komendantov-Kononenko (1996) neuron model GUI](rthybrid_komendantov_kononenko_1996_neuron.png)
+![RTHybrid Hindmarsh-Rose (1984) neuron model GUI](rthybrid_hindmarsh_rose_1984_neuron.png)
 
 <!--start-->
-<p><b>RTHybrid Komendantov-Kononenko (1996) neuron model</b><br>RTHybrid module for RTXI that implements the [Komendantov-Kononenko neuron model](https://doi.org/10.1006/jtbi.1996.0215).</p>
+<p><b>RTHybrid Hindmarsh-Rose (1984) neuron model</b><br>RTHybrid module for RTXI that implements the [Hindmarsh-Rose neuron model](https://doi.org/10.1098%2Frspb.1984.0024).</p>
 <!--end-->
 
 #### Input
@@ -19,25 +19,17 @@
 
 #### Parameters
 1. Burst duration (s) - Burst duration, from the first spike of one burst to the first spike of the next (in seconds). If you want to use the value that comes as input(1), type -1 in this field.
-2. i - 
-3. cm - 
-4. g_na_v - 
-5. v_na - 
-6. g_na - 
-7. g_na_ttx - 
-8. g_k - 
-9. g_k_tea - 
-10. v_k - 
-11. g_b - 
-12. v_b - 
-13. g_ca - 
-14. v_ca - 
-15. g_ca_ca - 
-16. k_beta - 
-17. beta - 
-18. rho - 
-19. k_s - 
-20. v0 (mV) - 
+2. I - 
+3. a - 
+4. b - 
+5. c - 
+6. d - 
+7. r - 
+8. s - 
+9. xr - 
+10. x0 - 
+11. y0 - 
+12. z0 - 
 
 #### States
 1. v - 

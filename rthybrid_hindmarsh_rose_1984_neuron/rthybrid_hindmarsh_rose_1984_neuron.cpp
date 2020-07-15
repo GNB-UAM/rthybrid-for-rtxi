@@ -21,7 +21,7 @@
  * DefaultGUIModel with a custom GUI.
  */
 
-#include "rthybrid_hindmarsh_rose_1986_neuron.h"
+#include "rthybrid_hindmarsh_rose_1984_neuron.h"
 #include <iostream>
 #include <main_window.h>
 
@@ -45,7 +45,7 @@
 extern "C" Plugin::Object*
 createRTXIPlugin(void)
 {
-  return new RTHybridHindmarshRose1986Neuron();
+  return new RTHybridHindmarshRose1984Neuron();
 }
 
 static DefaultGUIModel::variable_t vars[] = {
@@ -78,10 +78,10 @@ static DefaultGUIModel::variable_t vars[] = {
 
 static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
 
-RTHybridHindmarshRose1986Neuron::RTHybridHindmarshRose1986Neuron(void)
-  : DefaultGUIModel("RTHybrid Hindmarsh-Rose (1986) neuron model", ::vars, ::num_vars)
+RTHybridHindmarshRose1984Neuron::RTHybridHindmarshRose1984Neuron(void)
+  : DefaultGUIModel("RTHybrid Hindmarsh-Rose (1984) neuron model", ::vars, ::num_vars)
 {
-  setWhatsThis("<p><b>RTHybrid Hindmarsh-Rose (1986) neuron model</b></p>");
+  setWhatsThis("<p><b>RTHybrid Hindmarsh-Rose (1984) neuron model</b></p>");
   DefaultGUIModel::createGUI(vars,
                              num_vars); // this is required to create the GUI
   //customizeGUI();
@@ -93,11 +93,11 @@ RTHybridHindmarshRose1986Neuron::RTHybridHindmarshRose1986Neuron(void)
   QTimer::singleShot(0, this, SLOT(resizeMe()));
 }
 
-RTHybridHindmarshRose1986Neuron::~RTHybridHindmarshRose1986Neuron(void)
+RTHybridHindmarshRose1984Neuron::~RTHybridHindmarshRose1984Neuron(void)
 {
 }
 
-void RTHybridHindmarshRose1986Neuron::runge_kutta_65 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
+void RTHybridHindmarshRose1984Neuron::runge_kutta_65 (void (*f) (double *, double *, double *, double), int dim, double dt, double * vars, double * params, double aux) {
     double apoyo[dim], retorno[dim];
     double k[6][dim];
     int j;
@@ -160,7 +160,7 @@ void RTHybridHindmarshRose1986Neuron::runge_kutta_65 (void (*f) (double *, doubl
 }
 
 
-void RTHybridHindmarshRose1986Neuron::select_dt_neuron_model (double * dts, double * pts, unsigned int length, double pts_live, double * dt, double * pts_burst) {
+void RTHybridHindmarshRose1984Neuron::select_dt_neuron_model (double * dts, double * pts, unsigned int length, double pts_live, double * dt, double * pts_burst) {
     double aux = pts_live;
     double factor = 1;
     double intpart, fractpart;
@@ -206,7 +206,7 @@ void RTHybridHindmarshRose1986Neuron::select_dt_neuron_model (double * dts, doub
 }
 
 
-double RTHybridHindmarshRose1986Neuron::set_pts_burst (double sec_per_burst) {
+double RTHybridHindmarshRose1984Neuron::set_pts_burst (double sec_per_burst) {
 	int length = 0;
 	int method = 3;
 	double pts_match = sec_per_burst * freq;
@@ -221,15 +221,15 @@ double RTHybridHindmarshRose1986Neuron::set_pts_burst (double sec_per_burst) {
 }
 
 
-double RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_v (double * vars, double * params) {
+double RTHybridHindmarshRose1984Neuron::nm_hindmarsh_rose_1986_v (double * vars, double * params) {
 	return vars[NM_HINDMARSH_ROSE_1986_Y] + params[NM_HINDMARSH_ROSE_1986_B] * (vars[NM_HINDMARSH_ROSE_1986_V]*vars[NM_HINDMARSH_ROSE_1986_V]) - params[NM_HINDMARSH_ROSE_1986_A] * (vars[NM_HINDMARSH_ROSE_1986_V]*vars[NM_HINDMARSH_ROSE_1986_V]*vars[NM_HINDMARSH_ROSE_1986_V]) - vars[NM_HINDMARSH_ROSE_1986_Z] + params[NM_HINDMARSH_ROSE_1986_I] - params[NM_HINDMARSH_ROSE_1986_SYN];
 }
 
-double RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_y (double * vars, double * params) {
+double RTHybridHindmarshRose1984Neuron::nm_hindmarsh_rose_1986_y (double * vars, double * params) {
 	return params[NM_HINDMARSH_ROSE_1986_C] - params[NM_HINDMARSH_ROSE_1986_D] * vars[NM_HINDMARSH_ROSE_1986_V]*vars[NM_HINDMARSH_ROSE_1986_V] - vars[NM_HINDMARSH_ROSE_1986_Y];
 }
 
-double RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_z (double * vars, double * params) {
+double RTHybridHindmarshRose1984Neuron::nm_hindmarsh_rose_1986_z (double * vars, double * params) {
 	return params[NM_HINDMARSH_ROSE_1986_R] * (params[NM_HINDMARSH_ROSE_1986_S] * (vars[NM_HINDMARSH_ROSE_1986_V] - params[NM_HINDMARSH_ROSE_1986_XR]) - vars[NM_HINDMARSH_ROSE_1986_Z]);
 }
 
@@ -241,7 +241,7 @@ double RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_z (double * vars,
  * @param[in] syn Synapse input current value
  */
 
-void RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_f (double * vars, double * ret, double * params, double syn) {
+void RTHybridHindmarshRose1984Neuron::nm_hindmarsh_rose_1986_f (double * vars, double * ret, double * params, double syn) {
 	params[NM_HINDMARSH_ROSE_1986_SYN] = syn;
 
 	ret[NM_HINDMARSH_ROSE_1986_V] = nm_hindmarsh_rose_1986_v(vars, params);
@@ -250,7 +250,7 @@ void RTHybridHindmarshRose1986Neuron::nm_hindmarsh_rose_1986_f (double * vars, d
 }
 
 void
-RTHybridHindmarshRose1986Neuron::execute(void)
+RTHybridHindmarshRose1984Neuron::execute(void)
 {
 	int i;
 
@@ -272,7 +272,7 @@ RTHybridHindmarshRose1986Neuron::execute(void)
 }
 
 void
-RTHybridHindmarshRose1986Neuron::initParameters(void)
+RTHybridHindmarshRose1984Neuron::initParameters(void)
 {
 	burst_duration_value = 1.0;
     burst_duration = burst_duration_value;
@@ -297,7 +297,7 @@ RTHybridHindmarshRose1986Neuron::initParameters(void)
 }
 
 void
-RTHybridHindmarshRose1986Neuron::update(DefaultGUIModel::update_flags_t flag)
+RTHybridHindmarshRose1984Neuron::update(DefaultGUIModel::update_flags_t flag)
 {
   switch (flag) {
     case INIT:
@@ -380,7 +380,7 @@ RTHybridHindmarshRose1986Neuron::update(DefaultGUIModel::update_flags_t flag)
 }
 
 void
-RTHybridHindmarshRose1986Neuron::customizeGUI(void)
+RTHybridHindmarshRose1984Neuron::customizeGUI(void)
 {
   QGridLayout* customlayout = DefaultGUIModel::getLayout();
 
@@ -401,11 +401,11 @@ RTHybridHindmarshRose1986Neuron::customizeGUI(void)
 
 // functions designated as Qt slots are implemented as regular C++ functions
 void
-RTHybridHindmarshRose1986Neuron::aBttn_event(void)
+RTHybridHindmarshRose1984Neuron::aBttn_event(void)
 {
 }
 
 void
-RTHybridHindmarshRose1986Neuron::bBttn_event(void)
+RTHybridHindmarshRose1984Neuron::bBttn_event(void)
 {
 }

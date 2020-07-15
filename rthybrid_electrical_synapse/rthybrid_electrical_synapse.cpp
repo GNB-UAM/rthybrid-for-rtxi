@@ -42,8 +42,8 @@ static DefaultGUIModel::variable_t vars[] = {
     { "Post-synaptic Voltage (V)", "", DefaultGUIModel::INPUT,},
     { "Pre-synaptic Voltage (V)", "", DefaultGUIModel::INPUT,},
 
-    { "Scale (Pre to Post)", "", DefaultGUIModel::INPUT,},
-    { "Offset (Pre to Post)", "", DefaultGUIModel::INPUT,},
+    { "Scale (Pre to Post)", "Scale from the pre-synaptic neuron to the post-synaptic one, as given by the RTHybridAmplitudeScale module.", DefaultGUIModel::INPUT,},
+    { "Offset (Pre to Post)", "Offset from the pre-synaptic neuron to the post-synaptic one, as given by the RTHybridAmplitudeScale module.", DefaultGUIModel::INPUT,},
    
     { "Current (nA)", "", DefaultGUIModel::STATE,},
     { "offset", "", DefaultGUIModel::STATE,},
@@ -55,7 +55,7 @@ static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
 RTHybridElectricalSynapse::RTHybridElectricalSynapse(void)
   : DefaultGUIModel("RTHybrid electrical synapse model", ::vars, ::num_vars)
 {
-  setWhatsThis("<p><b>RTHybrid electrical synapse model</b><</p>");
+  setWhatsThis("<p><b>RTHybrid electrical synapse model</b><br>RTHybrid module for RTXI that implements a gap junction electrical synapse model.</p>");
   DefaultGUIModel::createGUI(vars,
                              num_vars); // this is required to create the GUI
   //customizeGUI();
