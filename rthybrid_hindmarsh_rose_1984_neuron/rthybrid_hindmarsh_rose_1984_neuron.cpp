@@ -364,6 +364,8 @@ RTHybridHindmarshRose1984Neuron::update(DefaultGUIModel::update_flags_t flag)
       break;
 
     case PAUSE:
+      output(0) = 0;
+      output(1) = 0;
       break;
 
     case PERIOD:
