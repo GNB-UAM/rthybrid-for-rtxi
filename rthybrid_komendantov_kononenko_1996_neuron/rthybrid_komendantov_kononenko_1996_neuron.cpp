@@ -529,6 +529,8 @@ RTHybridKomendantovKononenko1996Neuron::update(DefaultGUIModel::update_flags_t f
       break;
 
     case PAUSE:
+      output(0) = 0;
+      output(1) = 0; 
       break;
 
     case PERIOD:
